@@ -1,0 +1,32 @@
+server:
+  port: {服务器端口}
+  address: {服务器IP地址}
+
+spring:
+  data:
+    mongodb:
+      agent:
+        hostPort: {数据库服务器IP地址}:27017
+        database: AgentAccount
+      testsuite:
+        hostPort: {数据库服务器IP地址}:27017
+        database: Web-TestSet
+      testdata:
+        hostPort: {数据库服务器IP地址}:27017
+        database: Web-TestData
+      testobject:
+        hostPort: {数据库服务器IP地址}:27017
+        database: Web-Objects
+      testresult:
+        hostPort: {数据库服务器IP地址}:27017
+        database: Web-TestResults
+      testcase:
+        hostPort: {数据库服务器IP地址}:27017
+        database: Web-TestCases
+      testmodule:
+        hostPort: {数据库服务器IP地址}:27017
+        database: Web-TestModules
+
+automation:
+  screensUrl: {存放的截图地址：必须是绝对路径,最后必须加\}
+  featuresUrl: {存放的测试用例地址：必须是绝对路径,最后必须加\}
