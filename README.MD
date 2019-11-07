@@ -18,7 +18,9 @@
 >
 > 它能够实现测试套件的集成，不同项目或者模块集成到一个测试套件，测试套件能够并发执行测试用例。
 >
-> 它支持Selenium Grid，可运行到Node和本机，也可运行到Hub机分发（前提需要搭建Grid），以后会更新成集群服务器，毕竟是多人用户执行测试用例，总要配置几个副服务器来跑测试用例降低单服务器的负荷。
+> 它支持Selenium Grid，可运行到Node和本机，也可运行到Hub机分发（前提需要搭建Grid），以后会更新成集群服务器，毕竟是多人用户执行测试用例，总要配置几个副服务器来跑测试用例降低单服务器的负荷。以下是本框架与Selenium Grid的关系图：
+>
+> ![Process1](/image/Process-1.png)
 >
 > 它暂时支持Chrome浏览器，其他浏览器以后的版本会加入。
 >
@@ -33,12 +35,9 @@
 > > MongoDB v3.0以上。
 > >
 > > > 1. 配置环境变量 \*\MongoDB\Server\\{版本号}\bin。
-> > >
-> > > 2. 安装后在 \*\MongoDB\Server\\{版本号}下创建文件夹data。
-> > >
-> > > 3. 在 \*\MongoDB\Server\\{版本号}下创建文本 输入mongod --dbpath ./data --bind_ip {你的数据库服务器IP}。
-> > >
-> > > 4. 更改文本为 .bat 格式然后保存运行，出现log运行中就说明搭建成功啦。
+> > >2. 安装后在 \*\MongoDB\Server\\{版本号}下创建文件夹data。
+> > > 3. 在 \*\MongoDB\Server\\{版本号}下创建文本 输入 `mongod --dbpath ./data --bind_ip {你的数据库服务器IP}                         ` 。
+> > >4. 更改文本为 .bat 格式然后保存运行，出现log运行中就说明搭建成功啦。
 > >
 > > 下载 BenGoFrame.jar和相关文文件到{你喜欢的名字}文件夹。
 > >
@@ -63,42 +62,62 @@
 > > >
 > > > > ```yaml
 > > > > server:
-> > > >   port: {服务器端口}
-> > > >   address: {服务器IP地址}
+> > > > port: {服务器端口}
+> > > > address: {服务器IP地址}
 > > > > 
 > > > > spring:
-> > > >   data:
-> > > >     mongodb:
-> > > >       agent:
-> > > >         hostPort: {数据库服务器IP地址}:27017
-> > > >         database: AgentAccount
-> > > >       testsuite:
-> > > >         hostPort: {数据库服务器IP地址}:27017
-> > > >         database: Web-TestSet
-> > > >       testdata:
-> > > >         hostPort: {数据库服务器IP地址}:27017
-> > > >         database: Web-TestData
-> > > >       testobject:
-> > > >         hostPort: {数据库服务器IP地址}:27017
-> > > >         database: Web-Objects
-> > > >       testresult:
-> > > >         hostPort: {数据库服务器IP地址}:27017
-> > > >         database: Web-TestResults
-> > > >       testcase:
-> > > >         hostPort: {数据库服务器IP地址}:27017
-> > > >         database: Web-TestCases
-> > > >       testmodule:
-> > > >         hostPort: {数据库服务器IP地址}:27017
-> > > >         database: Web-TestModules
+> > > > data:
+> > > >  mongodb:
+> > > >    agent:
+> > > >      hostPort: {数据库服务器IP地址}:27017
+> > > >      database: AgentAccount
+> > > >    testsuite:
+> > > >      hostPort: {数据库服务器IP地址}:27017
+> > > >      database: Web-TestSet
+> > > >    testdata:
+> > > >      hostPort: {数据库服务器IP地址}:27017
+> > > >      database: Web-TestData
+> > > >    testobject:
+> > > >      hostPort: {数据库服务器IP地址}:27017
+> > > >      database: Web-Objects
+> > > >    testresult:
+> > > >      hostPort: {数据库服务器IP地址}:27017
+> > > >      database: Web-TestResults
+> > > >    testcase:
+> > > >      hostPort: {数据库服务器IP地址}:27017
+> > > >      database: Web-TestCases
+> > > >    testmodule:
+> > > >      hostPort: {数据库服务器IP地址}:27017
+> > > >      database: Web-TestModules
 > > > > 
 > > > > automation:
-> > > >   screensUrl: {存放的截图地址：必须是绝对路径,最后必须加\}
-> > > >   featuresUrl: {存放的测试用例地址：必须是绝对路径,最后必须加\}
+> > > > screensUrl: {存放的截图地址：必须是绝对路径,最后必须加\}
+> > > > featuresUrl: {存放的测试用例地址：必须是绝对路径,最后必须加\}
 > > > > ```
 > > > >
-> > > > 6. 最后在存放BenGoFrame.jar文件夹下运行cmd或者bash： java -jar BenGoFrame.jar，打开浏览器输入{服务器IP地址}:{服务器端口}就能进入到登录页面（不要忘记启动数据库），你也可以在局域网上访问该地址。
+> > > > 6. AgentAccount文件夹为用户初始化数据（前提必须安装、配置和启动数据库），打开命令行cmd或者bash：`mongorestore -h {数据库IP}:27017 -d AgentAccount --dir "{绝对路径}\AgentAccount"`    
+> > > >
+> > > >    ![Restore](/image/Restore.png)
+> > > >
+> > > >    出现以上log，证明初始化完成。
+> > > >
+> > > > 7. 最后在存放BenGoFrame.jar文件夹下运行cmd或者bash： `java -jar BenGoFrame.jar`，然后打开浏览器输入{服务器IP地址}:{服务器端口}就能进入到登录页面（不要忘记启动数据库），你也可以在局域网上访问该地址。
 
-## 3、Cook Book (烹饪菜式)
+## 3、Work Flow （页面流程）
+
+> ![](/image/Process-2.png)
+>
+> 1. 在Test Data页面创建初始化测试数据，这里首先必须创建URL。
+> 2. 在Test Case页面创建测试用例并开始添加测试步骤，测试用例的名称必须与测试数据的测试用例名称一致。
+> 3. 测试步骤是自然语言的描述，由测试对象和测试数据组成，所以当选择了带有测试对象或者测试数据的步骤，请前往Test Object 和Test Data创建对应的key，注意的是测试对象按页面分离，比如 searchBtn对象在BaiDuHomePage，而测试数据按测试用例分离，比如 baiduTest测试用例下有自己的测试数据URL：www.baidu.com
+> 4. 添加测试步骤和以上第三条会不断的重复，直到你的测试用例完成。
+> 5. 如果觉得测试步骤重复次数比较多，可以选择到Test Module创建测试模块，它也是需要添加测试步骤和以上第三条会不断的重复，直到你的测试模块完成。完成后在测试用例步骤中选择关键字并替换模块名称即可调用。
+> 6. 完成测试用例的创建后保存至Test Suite中（在Cook Book中会详细解释Test Suite的概念）
+> 7. 在Test Suite页面创建测试用例和对应的测试控制参数（在Cook Book中会详细解释Test Suite的概念），该页面的Test Suite名称必须与Test Case中的Test Suite名称保持一致。
+> 8. 完成Test Suite的配置后，去到Test Execute执行用例（在Cook Book中会详细解释Test Execute的用法）
+> 9. 执行完毕，去到Test Report查看当前RunId的测试详细结果。
+
+## 4、Cook Book (烹饪菜式)
 
 > User Manage (用户管理)
 >
