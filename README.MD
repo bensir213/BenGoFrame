@@ -6,7 +6,7 @@
 
 > BenGoFrame是基于Cucumber测试框架，以BDD形式开发的自动化测试框架。
 >
-> 目前只支持Web端的自动化和API，APP端会以后的版本发布。
+> 目前只支持Web、API端的自动化和，APP端会以后的版本发布。
 >
 > 它也集成了Page Object、Data Driven、Keyword Data Driven、BDD Driven框架理念。
 >
