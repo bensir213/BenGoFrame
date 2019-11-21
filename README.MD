@@ -4,17 +4,15 @@
 
 ## 1、BenGoFrame 简介
 
-> 本人第一次写这种文档，也包括第一次搭建前端，第一次搭建一个后台，第一次设计数据库都是我一个人搞，如果遇到什么地方觉得很Low，那就很正常的哇，我会努力学习的，另外平台语言暂时只支持英文，测试数据的值可以是中文，都是些小学生单词，我保证大家都能看懂。
->
 > BenGoFrame是基于Cucumber测试框架，以BDD形式开发的自动化测试框架。
 >
-> 目前只支持Web端的自动化，API和APP端会以后的版本发布。
+> 目前只支持Web端的自动化和API，APP端会以后的版本发布。
 >
 > 它也集成了Page Object、Data Driven、Keyword Data Driven、BDD Driven框架理念。
 >
-> 如果不知道以上框架，没关系，本框架不用写代码，但前提是要会抓页面对象。
+> 如果不知道以上框架，没关系，本框架不用写代码，但前提是要会抓页面对象和API接口测试的基础。
 >
-> 它能够实现测试对象的按页面分离，测试数据按用例分离，测试模块的调用。
+> 它能够实现测试对象的按页面分离（API无对象页面），测试数据按用例分离，测试模块的调用。
 >
 > 它能够实现测试套件的集成，不同项目或者模块集成到一个测试套件，测试套件能够并发执行测试用例。
 >
@@ -22,11 +20,11 @@
 >
 > ![Process1](/image/Process-1.png)
 >
-> 它暂时支持Chrome浏览器，其他浏览器以后的版本会加入。
+> 它暂时支持Chrome浏览器，其他浏览器需定制。
 >
-> 当前版本只支持Web，目前只开放了比较通用Actions，如果有需要定制的Actions，给我提issue吧。
+> 当前版本支持的Web，API，目前只开放了比较通用Actions，如果有需要定制的Actions，给我提issue吧。
 >
-> 在未来的版本会加入API和APP的自动化，敬请期待。
+> 在未来的版本会加入APP的自动化，敬请期待，本人第一次写这种文档，也包括第一次搭建前端，第一次搭建一个后台，第一次设计数据库都是我一个人搞，如果遇到什么地方觉得很Low，那就很正常的哇，我会努力学习的，另外平台语言暂时只支持英文，测试数据的值可以是中文，都是些小学生单词，我保证大家都能看懂。
 
 ## 2、环境搭建
 
@@ -62,62 +60,80 @@
 > > >
 > > > > ```yaml
 > > > > server:
-> > > > port: {服务器端口}
-> > > > address: {服务器IP地址}
+> > > >     port: {服务器端口}
+> > > >     address: {服务器IP地址}
 > > > > 
 > > > > spring:
-> > > > data:
-> > > >  mongodb:
-> > > >    agent:
-> > > >      hostPort: {数据库服务器IP地址}:27017
-> > > >      database: AgentAccount
-> > > >    testsuite:
-> > > >      hostPort: {数据库服务器IP地址}:27017
-> > > >      database: Web-TestSet
-> > > >    testdata:
-> > > >      hostPort: {数据库服务器IP地址}:27017
-> > > >      database: Web-TestData
-> > > >    testobject:
-> > > >      hostPort: {数据库服务器IP地址}:27017
-> > > >      database: Web-Objects
-> > > >    testresult:
-> > > >      hostPort: {数据库服务器IP地址}:27017
-> > > >      database: Web-TestResults
-> > > >    testcase:
-> > > >      hostPort: {数据库服务器IP地址}:27017
-> > > >      database: Web-TestCases
-> > > >    testmodule:
-> > > >      hostPort: {数据库服务器IP地址}:27017
-> > > >      database: Web-TestModules
-> > > > 
+> > > >     data:
+> > > >        mongodb:
+> > > >          agent:
+> > > >            hostPort: {数据库IP地址}:27017
+> > > >            database: AgentAccount
+> > > >          testsuite:
+> > > >            hostPort: {数据库IP地址}:27017
+> > > >            database: Web-TestSet
+> > > >          testdata:
+> > > >            hostPort: {数据库IP地址}:27017
+> > > >            database: Web-TestData
+> > > >          testobject:
+> > > >            hostPort: {数据库IP地址}:27017
+> > > >            database: Web-Objects
+> > > >          testresult:
+> > > >            hostPort: {数据库IP地址}:27017
+> > > >            database: Web-TestResults
+> > > >          testcase:
+> > > >            hostPort: {数据库IP地址}:27017
+> > > >            database: Web-TestCases
+> > > >          testmodule:
+> > > >            hostPort: {数据库IP地址}:27017
+> > > >            database: Web-TestModules
+> > > >          apitestsuite:
+> > > >            hostPort: {数据库IP地址}:27017
+> > > >            database: API-TestSet
+> > > >          apitestdata:
+> > > >            hostPort: {数据库IP地址}:27017
+> > > >            database: API-TestData
+> > > >          apifile:
+> > > >            hostPort: {数据库IP地址}:27017
+> > > >            database: API-File
+> > > >          apitestcase:
+> > > >            hostPort: {数据库IP地址}:27017
+> > > >            database: API-TestCases
+> > > >          apiresult:
+> > > >            hostPort: {数据库IP地址}:27017
+> > > >            database: API-TestResults
+> > > >          apitestmodule:
+> > > >            hostPort: {数据库IP地址}:27017
+> > > >            database: API-TestModules
 > > > > automation:
-> > > > screensUrl: {存放的截图地址：必须是绝对路径,最后必须加\}
-> > > > featuresUrl: {存放的测试用例地址：必须是绝对路径,最后必须加\}
-> > > > ```
-> > > >
+> > > >   screensUrl: {存放的截图地址：必须是绝对路径,最后必须加\}
+> > > >   featuresUrl: {存放的测试用例地址：必须是绝对路径,最后必须加\}
+> > > >   ```
+> > > >   
 > > > > 6. AgentAccount文件夹为用户初始化数据（前提必须安装、配置和启动数据库），打开命令行cmd或者bash：`mongorestore -h {数据库IP}:27017 -d AgentAccount --dir "{绝对路径}\AgentAccount"`    
 > > > >
-> > > >    ![Restore](/image/Restore.png)
+> > > > ![Restore](/image/Restore.png)
 > > > >
-> > > >    出现以上log，证明初始化完成。
+> > > > 出现以上log，证明初始化完成。
 > > > >
 > > > > 7. 最后在存放BenGoFrame.jar文件夹下运行cmd或者bash： `java -jar BenGoFrame.jar`，然后打开浏览器输入{服务器IP地址}:{服务器端口}就能进入到登录页面（不要忘记启动数据库），你也可以在局域网上访问该地址。
 
-## 3、Work Flow （页面流程）
+## 3、Work Flow （页面流程-适用Web、API）
 
 > ![](/image/Process-2.png)
 >
 > 1. 在Test Data页面创建初始化测试数据，这里首先必须创建URL。
 > 2. 在Test Case页面创建测试用例并开始添加测试步骤，测试用例的名称必须与测试数据的测试用例名称一致。
-> 3. 测试步骤是自然语言的描述，由测试对象和测试数据组成，所以当选择了带有测试对象或者测试数据的步骤，请前往Test Object 和Test Data创建对应的key，注意的是测试对象按页面分离，比如 searchBtn对象在BaiDuHomePage，而测试数据按测试用例分离，比如 baiduTest测试用例下有自己的测试数据URL：www.baidu.com
+> 3. 测试步骤是自然语言的描述，由测试对象和测试数据组成，所以当选择了带有测试对象或者测试数据的步骤，请前往Test Object 和Test Data创建对应的key，注意的是测试对象按页面分离，比如 searchBtn对象在BaiDuHomePage，而测试数据按测试用例分离，比如 baiduTest测试用例下有自己的测试数据URL：http://www.baidu.com
 > 4. 添加测试步骤和以上第三条会不断的重复，直到你的测试用例完成。
 > 5. 如果觉得测试步骤重复次数比较多，可以选择到Test Module创建测试模块，它也是需要添加测试步骤和以上第三条会不断的重复，直到你的测试模块完成。完成后在测试用例步骤中选择关键字并替换模块名称即可调用。
 > 6. 完成测试用例的创建后保存至Test Suite中（在Cook Book中会详细解释Test Suite的概念）
 > 7. 在Test Suite页面创建测试用例和对应的测试控制参数（在Cook Book中会详细解释Test Suite的概念），该页面的Test Suite名称必须与Test Case中的Test Suite名称保持一致。
 > 8. 完成Test Suite的配置后，去到Test Execute执行用例（在Cook Book中会详细解释Test Execute的用法）
 > 9. 执行完毕，去到Test Report查看当前RunId的测试详细结果。
+> 10. API 页面流程与Web一致。
 
-## 4、Cook Book (烹饪菜式)
+## 4、Web Cook Book (烹饪菜式-1)
 
 > User Manage (用户管理)
 >
@@ -159,9 +175,11 @@
 > >    > > > >
 > >    > > > > 2. 下载 http://npm.taobao.org/mirrors/chromedriver/78.0.3904.70/chromedriver_win32.zip 
 > >    > > > >
-> >    > > > >    chromedriver与浏览器版本一一对应，下载前请看{浏览器版本号78.0.3904.70}放进上述路径下的文件夹
+> >    > > > > chromedriver与浏览器版本一一对应，下载前请看{浏览器版本号78.0.3904.70}放进上述路径下的文件夹
 > >    > > > >
-> >    > > > > 3. 当前文件夹创建txt文件打开输入 java -Dwebdriver.chrome.driver=chromedriver.exe -jar selenium-server-standalone-3.141.59.jar -host {你的IP地址或者localhost}（端口号4444，端口号已经固定好，以后的版本会加入端口号的自定义），将txt文件改成bat文件（windowns用户，linux用户以后版本会更新），最后运行它就会出现以下日志状态，并且打开浏览器输入：http://{你的IP地址:4444}
+> >    > > > > 3. 当前文件夹创建txt文件打开输入:      
+> >    > > > >
+> >    > > > >    `java -Dwebdriver.chrome.driver=chromedriver.exe -jar selenium-server-standalon e-3.141.59.jar -host {你的IP地址或者localhost}                                  `    （端口号4444，端口号已经固定好，以后的版本会加入端口号的自定义），将txt文件改成bat文件（windowns用户，linux用户以后版本会更新），最后运行它就会出现以下日志状态，并且打开浏览器输入：http://{你的IP地址:4444}
 > >    > > > >
 > >    > > > > ![seleniuemGrid-1](image/SeleniumGrid-1.PNG)
 > >    > > > >
@@ -187,11 +205,10 @@
 > >    >
 > >    > 测试用例详细步骤（下）：步骤描述---步骤使用的数据---查找页面元素的方法---步骤失败截图
 > >    >
-> >    > 这里就不多介绍这个页面，一目了然，点点点吧，要是还想再多信息关于测试报告的话，请告诉我。我尽量满足你们的愿望：）
->
-> UI Automation（测试用例-测试对象-测试数据-测试模块-测试集合的管理）
->
-> > 1. Test Case (测试用例)
+> 
+>UI Automation（测试用例-测试对象-测试数据-测试模块-测试集合的管理）
+> 
+>> 1. Test Case (测试用例)
 > >
 > >    >![TestCase-1](image/TestCase-1.PNG)
 > >    >
@@ -227,7 +244,7 @@
 > >    >>>
 > >    >>> 到这里，我想问下，这么翻译，能看懂它每一步骤都在做什么操作吗？要是不能，请告诉我，我优化下，我认错，我学习。
 > >    >>>
-> >    >>> 在编写测试用例之前，这里有个强制前置条件，是先去Test Data页面创建第一条测试数据Data Name : URL, Data Value : {首页或者你要访问的页面}，如何创建测试数据移步Test Data页面。
+> >    >>> 在编写测试用例之前，这里有个强制前置条件，是先去Test Data页面创建第一条对应的测试数据Data Name : URL, Data Value : {首页或者你要访问的页面}，如何创建测试数据移步Test Data页面。
 > >    >>>
 > >    >>> ![TestCase-2](image/TestCase-2.PNG)
 > >    >>>
@@ -241,13 +258,12 @@
 > >    >>> >
 > >    >>> > moduleName: 是一群测试步骤组成的模块的名字，需要在Test Module页面创建。
 > >    >
-> >    >Action Tips （右下）可参考所有语句的格式
+> >    >Action Tips （右下）可参考所有语句的格式和语法
 > >    >
-> >    >Test Case概念讲完了，那就点点点吧，非常容易操作，朗朗上手
-> >
-> > 2. Test Object (测试对象)
-> >
-> >    > ![TestObject-1](image/TestObject-1.PNG)
+> >    
+> >2. Test Object (测试对象)
+> > 
+> >   > ![TestObject-1](image/TestObject-1.PNG)
 > >    >
 > >    > 测试对象页面是管理各个页面的对象库，它借鉴了PageObject框架的理念
 > >    >
@@ -259,25 +275,23 @@
 > >    >
 > >    > 每个对象中有不同的定位方式：xpath/id/css等等，这个得看大家的基本功了，这里强调，必须把xpath和css搞熟了，对定位很有帮助。
 > >    >
-> >    > 其他的不一一介绍，点点点吧，还有都是必填项，方便以后跟踪
-> >
+> >    
 > > 3. Test Data （测试数据）
 > >
 > >    > ![TestData-1](image/TestData-1.PNG)
-> >    >
+> >   >
 > >    > 测试数据页面是管理每个case的初始化存储中心，以用例为单位，创建测试用例前必须创建测试数据
 > >    >
 > >    > Data Name是测试数据的键，通过键就能找到Data Value值
 > >    >
 > >    > 在Test Case中如果步骤需要用到测试数据，只需要替换成{text/inputData/waitTime/optionText/storeName}成键名（包括花括号），如果不需要引用测试数据，直接替换成测试数据的值。
 > >    >
-> >    > 其他的不一一介绍，点点点吧，还有都是必填项，方便以后跟踪
-> >
+> >    
 > > 4. Test Module （测试模块）
-> >
-> >    > ![TestModule-1](image/TestModule-1.PNG)
+> > 
+> >   > ![TestModule-1](image/TestModule-1.PNG)
 > >    >
-> >    > 测试模块是一个一个测试步骤组成的集合，这里用到了关键字驱动的理念
+> >   > 测试模块是一个一个测试步骤组成的集合，这里用到了关键字驱动的理念
 > >    >
 > >    > 【pageName】【objectName】【Action】【ActionType】【Input】【Comment】
 > >    >
@@ -291,16 +305,15 @@
 > >    >    >
 > >    >    > Comment是必填项，用来描述你当前测试步骤，语言尽量通俗易懂
 > >    >    >
-> >    >    > 右下有Actions Tips参考，不懂可以参考，要是还有不懂的地方，告诉我，我改
+> >    >    > 右下有Actions Tips参考
 > >    >
-> >    > 其他的不一一介绍，点点点吧
-> >
+> >    
 > > 5. Test Suite （测试集合的管理）
-> >
+> > 
 > >    > ![TestSuite-1](image/TestSuite-1.PNG)
-> >    >
+> >   >
 > >    > 测试集合管理页面是控制测试用例是否运行的页面，与测试用例中的Test Suite不是一个东西，但是我说过如果需要在测试集合管理页面中创建集合，那必须和Test Case中的Test Suite名字相同，因为它们不同的地方是一个是存放用例一个是控制用例运行
-> >    >
+> >   >
 > >    > 【TestName】【Features】【Application】【Env】【Client】【OS】【Execute】
 > >    >
 > >    >    > TestName：与测试用例名字对应
@@ -317,9 +330,93 @@
 > >    >    >
 > >    >    > Execute：控制用例是否运行，Y表示运行，空白表示不运行，当Test Execute中运行指定测试集合是只运行打上Y的测试用例
 > >    >
-> >    > 其他的不一一介绍，点点点吧
-> >
+> > 
+> 
+
+## 5、API Cook Book （烹饪菜式-2）
+
+> API Execution (API执行模块)
 >
+> > 1.  API Execute (测试执行) 
+> >
+> >    > 与Web-UI执行模块差了一个Grid字段
+> >    >
+> >    > ![](/image/API-Execute-1.PNG)
+> >    >
+> >    > 其他功能与Web-UI执行模块一致
+> >
+> > 2. API Report (测试报告）
+> >
+> >    > 与Web-UI测试报告模块增加了一个请求与响应的详细信息表格：
+> >    >
+> >    > ![](/image/TestReport-2.PNG)
+> >    >
+> >    > 其他功能与Web-UI测试报告模块一致
+>
+> API Automation （ 测试用例-测试数据-测试模块-测试集合的管理 ）
+>
+> > 1. API Case (API测试用例)
+> >
+> >    > 与UI-Test Case模块一致，只是Step Description会是API的部分， 在编写测试用例之前，这里有个强制前置条件，是先去API Data页面创建第一条对应的测试数据Data Name : host, Data Value : {你的host url}
+> >    >
+> >    > ![](/image/TestCase-3.PNG)
+> >    >
+> >    >  Action Tips （右下）可参考所有语句的格式和语法
+> >
+> > 2. API Module （API测试模块）
+> >
+> >    > 与UI-Test Module模块一致，只是模块的步骤组合缺少了Object Name和Page Name
+> >    >
+> >    > ![](/image/TestModule-2.PNG)
+> >    >
+> >    > 【Action】【ActionType】【Input】【Comment】
+> >    >
+> >    > 当你选择Action的时候，它会判断该Action是否有ActionType和Input的功能，这边都做了控制，包括你Save，Save As或者Submit的时候也会判断你写的对不对。
+> >    >
+> >    > 比如： 你选择了Query，但是在ActionType里面你选择了SetHeader，那么当你保存的时候会出现报错信息提醒。所以在你编写测试模块之前，请到右下有Actions Tips参考学习语法
+> >
+> > 3. API Data （API测试数据）
+> >
+> >    > 与UI-Test Data模块一致，只是每条测试用例的数据中多出以下数据输入框：
+> >    >
+> >    > ![](/image/TestData-2.PNG)
+> >    >
+> >    > > Multiple Query Params
+> >    > >
+> >    > > > 是为你的url加入多个参数 ?{key}={value}，如果只需要加入一组参数可以选择直接加入到Data Name：{key}，Data Value：{value}中
+> >    > > >
+> >    > > > ![](/image/TestData-3.PNG)
+> >    > > >
+> >    > > > 你也可以在Multiple Query Params中加入json串，这里需要注意的是每组Query的Key Name必须是带有query或者Query的字段
+> >    > >
+> >    > > Multiple Request Headers
+> >    > >
+> >    > > > 是为你的请求头加入多个参数，如果只需要加入一组参数可以选择直接加入到Data Name：{key}，Data Value：{value}中
+> >    > > >
+> >    > > > 你也可以在Multiple Request Headers中加入json串，这里需要注意的是每组Header的Key Name必须是带有header或者Header的字段
+> >    > >
+> >    > > Multiple Request Body Params
+> >    > >
+> >    > > > 是为你的请求body加入多个参数，如果只需要加入一组参数可以选择直接加入到Data Name：{key}，Data Value：{value}中
+> >    > > >
+> >    > > > 你也可以在Multiple Request Body Params中加入json串，这里需要注意的是每组Body的Key Name必须是带有body或者Body的字段
+> >    > >
+> >    > > Request File
+> >    > >
+> >    > > > 因为每个公司的项目的不同，所以该上传文件功能暂时需要不开放，如果有需要，请联系我。
+> >
+> > 4. API Test Suite
+> >
+> >    >与UI-Test Suite模块一致,只是需要配置的参数不一样：
+> >    >
+> >    >![](/image/TestSuite-2.PNG)
+> >    >
+> >    >Application、Client都必须设置成api， OS参数暂时做摆设
+
+## 6、联系方式
+
 > QQ 群：517013705
+>
+> QQ： 573603568
 >
 > WeChat： bentaisir (注明加我的原因)

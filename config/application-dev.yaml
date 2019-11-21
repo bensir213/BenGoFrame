@@ -6,26 +6,44 @@ spring:
   data:
     mongodb:
       agent:
-        hostPort: {数据库服务器IP地址}:27017
+        hostPort: {数据库IP地址}:27017
         database: AgentAccount
       testsuite:
-        hostPort: {数据库服务器IP地址}:27017
+        hostPort: {数据库IP地址}:27017
         database: Web-TestSet
       testdata:
-        hostPort: {数据库服务器IP地址}:27017
+        hostPort: {数据库IP地址}:27017
         database: Web-TestData
       testobject:
-        hostPort: {数据库服务器IP地址}:27017
+        hostPort: {数据库IP地址}:27017
         database: Web-Objects
       testresult:
-        hostPort: {数据库服务器IP地址}:27017
+        hostPort: {数据库IP地址}:27017
         database: Web-TestResults
       testcase:
-        hostPort: {数据库服务器IP地址}:27017
+        hostPort: {数据库IP地址}:27017
         database: Web-TestCases
       testmodule:
-        hostPort: {数据库服务器IP地址}:27017
+        hostPort: {数据库IP地址}:27017
         database: Web-TestModules
+      apitestsuite:
+        hostPort: {数据库IP地址}:27017
+        database: API-TestSet
+      apitestdata:
+        hostPort: {数据库IP地址}:27017
+        database: API-TestData
+      apifile:
+        hostPort: {数据库IP地址}:27017
+        database: API-File
+      apitestcase:
+        hostPort: {数据库IP地址}:27017
+        database: API-TestCases
+      apiresult:
+        hostPort: {数据库IP地址}:27017
+        database: API-TestResults
+      apitestmodule:
+        hostPort: {数据库IP地址}:27017
+        database: API-TestModules
 
 automation:
   screensUrl: {存放的截图地址：必须是绝对路径,最后必须加\}
